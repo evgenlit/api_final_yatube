@@ -8,7 +8,7 @@ from .serializers import (
     FollowSerializer,
     GroupSerializer,
     PostSerializer)
-from posts.models import Follow, Group, Post
+from posts.models import Follow, Group, Post, User
 
 
 class CreateListFollowViewSet(
@@ -26,7 +26,9 @@ class FollowViewSet(CreateListFollowViewSet):
     search_fields = ('user__username', 'following__username',)
 
     def get_queryset(self):
-        return Follow.objects.filter(user=self.request.user).all()
+        user = get_object_or_404(User, username=self.request.user)
+        following = user.follower.all()
+        return following
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

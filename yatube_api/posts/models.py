@@ -10,7 +10,7 @@ class Group(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.title
+        return f'Group(title={self.title}, slug={self.slug}, pk={self.pk})'
 
 
 class Post(models.Model):
@@ -30,7 +30,7 @@ class Post(models.Model):
     )
 
     def __str__(self):
-        return self.text[:15]
+        return f'Post(text={self.text[:15]}, pk={self.pk})'
 
 
 class Comment(models.Model):
@@ -44,6 +44,9 @@ class Comment(models.Model):
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True
     )
+
+    def __str__(self):
+        return f'Comment(text={self.text[:15]}, pk={self.pk})'
 
 
 class Follow(models.Model):
@@ -67,3 +70,6 @@ class Follow(models.Model):
                 name='unique_follows',
             ),
         ]
+
+    def __str__(self):
+        return f'Comment(user={self.follower}, following={self.following})'
